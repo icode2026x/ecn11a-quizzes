@@ -731,7 +731,7 @@ textarea.form-control { resize: vertical; min-height: 90px; font-family: "Cascad
   }
   .main-content { padding: 20px 16px 50px; }
   .take-layout { grid-template-columns: 1fr; }
-  .side-panel { position: static; order: -1; }
+  .side-panel { position: static; order: 1; }
   .qmap-grid { grid-template-columns: repeat(10, 1fr); max-height: none; }
   .topbar-right .nav-link span { display: none; }
 }
@@ -740,4 +740,23 @@ textarea.form-control { resize: vertical; min-height: 90px; font-family: "Cascad
   .brand-text { display: none; }
   .quiz-row { flex-wrap: wrap; }
   .quiz-row-score { text-align: left; }
+  .question-card { padding: 18px; }
+  .question-text { font-size: 16px; }
+  .take-topbar { font-size: 13px; }
+  .take-nav { gap: 6px; }
+  .take-nav .btn { padding: 10px 12px; font-size: 13px; }
+}
+
+/* Smooth question transition */
+.question-card {
+  animation: fadeInQuestion .2s ease;
+}
+@keyframes fadeInQuestion {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Prevent iOS overscroll / bounce during quiz */
+@supports (-webkit-touch-callout: none) {
+  .take-layout { -webkit-overflow-scrolling: touch; }
 }

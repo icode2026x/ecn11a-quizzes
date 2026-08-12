@@ -224,16 +224,22 @@ window.applyTheme = applyTheme;
 
 /* ---------------------------- main render dispatch ---------------------------- */
 
+let _prevRoute = "";
+
 function render() {
   closeSidebarMobile();
   const parts = parseHash();
   renderSidebar();
 
+  const currentRoute = parts.join("/");
+  const isTake = parts[0] === "quiz" && parts[3] === "take";
+  const wasTake = _prevRoute.endsWith("/take");
+
   if (parts.length === 0) {
     mainContent.innerHTML = renderDashboard();
   } else if (parts[0] === "module" && parts[1]) {
     mainContent.innerHTML = renderModulePage(parts[1]);
-  } else if (parts[0] === "quiz" && parts[1] && parts[2] && parts[3] === "take") {
+  } else if (isTake) {
     mainContent.innerHTML = renderTakePage(parts[1], parts[2]);
     bindTakeKeyboard();
   } else if (parts[0] === "quiz" && parts[1] && parts[2] && parts[3] === "manage") {
@@ -247,7 +253,13 @@ function render() {
   } else {
     mainContent.innerHTML = renderDashboard();
   }
-  window.scrollTo(0, 0);
+
+  const routeBase = parts.slice(0, 4).join("/");
+  const prevBase = _prevRoute.split("/").slice(0, 4).join("/");
+  if (!(isTake && wasTake && routeBase === prevBase)) {
+    window.scrollTo(0, 0);
+  }
+  _prevRoute = currentRoute;
 
   if (parts[0] === "quiz" && parts[3] === "take") {
     const session = Store.loadSession(parts[2]);
@@ -811,6 +823,17 @@ const App = {
     if (session.mode === "practice") session.revealed[q.id] = true;
     Store.saveSession(quizId, session);
     render();
+
+    if (session.mode === "practice" && session.current < quiz.questions.length - 1) {
+      setTimeout(() => {
+        const s = Store.loadSession(quizId);
+        if (s && s.current === session.current) {
+          s.current++;
+          Store.saveSession(quizId, s);
+          render();
+        }
+      }, 900);
+    }
   },
 
   goToQuestion(index) {
