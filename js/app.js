@@ -266,10 +266,14 @@ function render() {
     if (session) {
       App.currentQuizStart = session.startTime;
       startTimerLoop();
+      startSessionAutosave(parts[2]);
+    } else {
+      stopSessionAutosave();
     }
   } else {
     App.currentQuizStart = null;
     clearInterval(timerInterval);
+    stopSessionAutosave();
   }
 }
 
@@ -564,6 +568,7 @@ function bindTakeKeyboard() {
 }
 
 let timerInterval = null;
+let sessionAutosaveInterval = null;
 function startTimerLoop() {
   clearInterval(timerInterval);
   timerInterval = setInterval(() => {
@@ -572,6 +577,37 @@ function startTimerLoop() {
     el.textContent = "⏱ " + formatDuration(Date.now() - App.currentQuizStart);
   }, 1000);
 }
+
+function startSessionAutosave(quizId) {
+  if (!quizId) return;
+  clearInterval(sessionAutosaveInterval);
+  sessionAutosaveInterval = setInterval(() => {
+    try {
+      const s = Store.loadSession(quizId);
+      if (s) Store.saveSession(quizId, s);
+    } catch (e) {
+      /* ignore */
+    }
+  }, 2000);
+}
+
+function stopSessionAutosave() {
+  clearInterval(sessionAutosaveInterval);
+  sessionAutosaveInterval = null;
+}
+
+// iOS (Safari) can suspend JS shortly after leaving a page.
+// `pagehide` is the most reliable signal to persist in-progress quiz state.
+window.addEventListener("pagehide", () => {
+  try {
+    const parts = parseHash();
+    if (parts[0] === "quiz" && parts[3] === "take") {
+      const quizId = parts[2];
+      const s = Store.loadSession(quizId);
+      if (s) Store.saveSession(quizId, s);
+    }
+  } catch (e) { /* ignore */ }
+});
 
 /* ---------------------------- results ---------------------------- */
 
