@@ -1,5 +1,5 @@
 /* Module 2 — American Revolution: Points of Contention (210 questions) */
-const AMERICAN_REVOLUTION_QUESTIONS = [
+var AMERICAN_REVOLUTION_QUESTIONS = [
   {
     "id": "m2q1",
     "question": "The lecture begins the story of the American Revolution by examining:",
