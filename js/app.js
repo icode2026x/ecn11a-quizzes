@@ -859,17 +859,6 @@ const App = {
     if (session.mode === "practice") session.revealed[q.id] = true;
     Store.saveSession(quizId, session);
     render();
-
-    if (session.mode === "practice" && session.current < quiz.questions.length - 1) {
-      setTimeout(() => {
-        const s = Store.loadSession(quizId);
-        if (s && s.current === session.current) {
-          s.current++;
-          Store.saveSession(quizId, s);
-          render();
-        }
-      }, 900);
-    }
   },
 
   goToQuestion(index) {
