@@ -1,24 +1,15 @@
 /* ============================================================
-   Firebase project config
-   ------------------------------------------------------------
-   1. Go to https://console.firebase.google.com/
-   2. Create a project (e.g. "ecn11a-quiz-hub")
-   3. Add a Web app → copy the firebaseConfig object
-   4. Paste the values below
-   5. Authentication → Sign-in method → enable Google
-   6. Firestore Database → Create database (start in production mode)
-   7. Deploy firestore.rules (or paste them in the Rules tab)
-   8. Authentication → Settings → Authorized domains
-      → add your GitHub Pages / Hosting domain
+   Firebase project config — ecn111aquiz
    ============================================================ */
 
 window.FIREBASE_CONFIG = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
+  apiKey: "AIzaSyCEYJEaoVJP5K_fl2162rVMPNCysf2yZSw",
+  authDomain: "ecn111aquiz.firebaseapp.com",
+  projectId: "ecn111aquiz",
+  storageBucket: "ecn111aquiz.firebasestorage.app",
+  messagingSenderId: "911178788119",
+  appId: "1:911178788119:web:bdb354c58a4972cbbe5b52",
+  measurementId: "G-JPKBVZK3Y7"
 };
 
 window.FIREBASE_CONFIGURED = !!(
