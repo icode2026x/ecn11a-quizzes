@@ -455,7 +455,26 @@ const DEFAULT_MODULES = [
       }
     ]
   },
-  { id: "module-2", name: "Module 2", description: "", quizzes: [] },
+  {
+    id: "module-2",
+    name: "Module 2",
+    description: "American Revolution — mercantilism, Navigation Acts, and Paul Thomas’s burden argument.",
+    quizzes: [
+      {
+        id: "m2-american-revolution-points-of-contention",
+        title: "American Revolution — Points of Contention",
+        type: "Video Lecture",
+        source: "",
+        scoringGuide: [
+          { min: 189, max: 210, label: "Excellent command; practice writing the full Thomas causal chain and FOB/CIF graphs." },
+          { min: 168, max: 188, label: "Strong — review distribution (winners/losers) and the New England geography argument." },
+          { min: 140, max: 167, label: "Basic knowledge present; strengthen burden magnitudes ($3.1m / 2% / 1%) and counterfactuals." },
+          { min: 0, max: 139, label: "Rewatch while handwriting: mercantilism → Navigation Acts → winners/losers → FOB/CIF → Thomas burden → 1763/defense → geography." }
+        ],
+        questions: AMERICAN_REVOLUTION_QUESTIONS
+      }
+    ]
+  },
   { id: "module-3", name: "Module 3", description: "", quizzes: [] },
   { id: "module-4", name: "Module 4", description: "", quizzes: [] },
   { id: "module-5", name: "Module 5", description: "", quizzes: [] },
@@ -463,3 +482,4 @@ const DEFAULT_MODULES = [
 ];
 
 const QUIZ_TYPES = ["Video Lecture", "Reading", "Lecture Notes", "Podcast", "Case Study", "Discussion", "Other"];
+

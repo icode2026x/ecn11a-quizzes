@@ -14,6 +14,36 @@ function deepClone(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
+function mergeDefaultContent(state) {
+  if (!state || !Array.isArray(state.modules) || typeof DEFAULT_MODULES === "undefined") return state;
+  DEFAULT_MODULES.forEach((defMod) => {
+    let mod = state.modules.find((m) => m.id === defMod.id);
+    if (!mod) {
+      state.modules.push(deepClone(defMod));
+      return;
+    }
+    if (defMod.description && !mod.description) mod.description = defMod.description;
+    (defMod.quizzes || []).forEach((defQuiz) => {
+      const existing = (mod.quizzes || []).find((q) => q.id === defQuiz.id);
+      if (!existing) {
+        if (!mod.quizzes) mod.quizzes = [];
+        mod.quizzes.push(deepClone(defQuiz));
+      } else if ((!existing.questions || !existing.questions.length) && defQuiz.questions && defQuiz.questions.length) {
+        existing.questions = deepClone(defQuiz.questions);
+        existing.title = defQuiz.title || existing.title;
+        existing.type = defQuiz.type || existing.type;
+        existing.scoringGuide = defQuiz.scoringGuide || existing.scoringGuide;
+      } else if (defQuiz.questions && existing.questions && defQuiz.questions.length > existing.questions.length) {
+        /* Upgrade seeded banks when new questions are shipped. */
+        existing.questions = deepClone(defQuiz.questions);
+        existing.scoringGuide = defQuiz.scoringGuide || existing.scoringGuide;
+        existing.title = defQuiz.title || existing.title;
+      }
+    });
+  });
+  return state;
+}
+
 function loadState() {
   let raw;
   try {
@@ -25,6 +55,8 @@ function loadState() {
     try {
       const parsed = JSON.parse(raw);
       if (!parsed.updatedAt) parsed.updatedAt = Date.now();
+      mergeDefaultContent(parsed);
+      saveStateLocal(parsed);
       return parsed;
     } catch (e) {
       /* fall through to reseed */
