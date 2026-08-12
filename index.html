@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#4338ca" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Quiz Hub" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="mobile-web-app-capable" content="yes" />
+<title>ECN 11A Quiz Hub</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📘</text></svg>" />
+<link rel="stylesheet" href="css/styles.css" />
+<script>
+  /* Apply the saved/system theme before first paint to avoid a light-mode flash. */
+  (function () {
+    try {
+      var saved = localStorage.getItem("ecn11a_theme");
+      var theme = saved === "light" || saved === "dark"
+        ? saved
+        : (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    } catch (e) { /* localStorage unavailable — default light styles apply */ }
+  })();
+</script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="sidebarToggle" class="icon-btn" title="Toggle menu" aria-label="Toggle menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <a href="#/" class="brand">
+          <span class="brand-mark">Σ</span>
+          <span class="brand-text">ECN 11A <strong>Quiz Hub</strong></span>
+        </a>
+      </div>
+      <nav class="topbar-right">
+        <div id="authSlot" class="auth-slot"></div>
+        <button id="themeToggle" class="theme-toggle-btn" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+        <button id="navDashboard" class="nav-link" data-route="#/">Dashboard</button>
+        <button id="navSettings" class="nav-link" data-route="#/settings">Settings</button>
+      </nav>
+    </header>
+
+    <div class="app-body">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <span>Modules</span>
+          <button id="addModuleBtn" class="btn-icon-add" title="Add module">+</button>
+        </div>
+        <nav id="moduleNav" class="module-nav"></nav>
+      </aside>
+
+      <div class="sidebar-scrim" id="sidebarScrim"></div>
+
+      <main class="main-content" id="mainContent">
+        <!-- Rendered by app.js -->
+      </main>
+    </div>
+  </div>
+
+  <div id="modalRoot" class="modal-root" aria-hidden="true"></div>
+  <div id="toastRoot" class="toast-root"></div>
+
+  <script src="js/firebase-config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script type="module" src="js/auth.js"></script>
+</body>
+</html>

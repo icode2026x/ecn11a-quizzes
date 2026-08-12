@@ -1,0 +1,10 @@
+.test-harness/
+node_modules/
+.firebase/
+firebase-debug.log
+firestore-debug.log
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
