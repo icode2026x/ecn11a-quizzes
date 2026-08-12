@@ -423,7 +423,7 @@ function renderQuizOverview(moduleId, quizId) {
       ${session ? `<p style="margin:14px 0 0;font-size:13.5px;opacity:.92;">In-progress session saved · ${sessionAnswered}/${stats.total} answered · currently on Q${session.current + 1}. Progress is kept until you submit.</p>` : ""}
       <div class="quiz-hero-actions">
         ${session ? `<button class="btn btn-primary" onclick="App.resumeQuiz('${mod.id}','${quiz.id}')">▶ Resume Quiz (Q${session.current + 1})</button>` : ""}
-        <button class="btn ${session ? "btn-secondary" : "btn-primary"}" onclick="App.startQuiz('${mod.id}','${quiz.id}', selectedMode['${quiz.id}'] || 'practice')" ${stats.total === 0 ? "disabled" : ""}>${session ? "↺ Start Over" : "▶ Start Quiz"}</button>
+        <button class="btn ${session ? "btn-secondary" : "btn-primary"}" onclick="App.startQuiz('${mod.id}','${quiz.id}', window.selectedMode['${quiz.id}'] || 'practice')" ${stats.total === 0 ? "disabled" : ""}>${session ? "↺ Start Over" : "▶ Start Quiz"}</button>
         <button class="btn btn-secondary" onclick="navigate('#/quiz/${mod.id}/${quiz.id}/manage')">Manage Questions</button>
       </div>
     </div>
